@@ -6,12 +6,12 @@
 
 class VecMarker{
 public:
-  VecMarker(){
-    _vec.header.frame_id = "world";
+  VecMarker(std::string ns = "ns", int id = 0, std::string frame = "world"){
+    _vec.header.frame_id = frame;
     _vec.header.stamp = ros::Time();
 
-    _vec.ns = "vec";
-    _vec.id = 0;
+    _vec.ns = ns;
+    _vec.id = id;
     _vec.type = visualization_msgs::Marker::ARROW;
     _vec.action = visualization_msgs::Marker::ADD;
 
@@ -56,6 +56,7 @@ public:
     return _vec;
   }
 
+private:
   visualization_msgs::Marker _vec;
   geometry_msgs::Point _p_start;
   geometry_msgs::Point _p_end;
@@ -82,15 +83,15 @@ int main(int argc, char** argv){
   ros::Publisher marker_pub = nh.advertise<visualization_msgs::MarkerArray>("markers", 10);
   visualization_msgs::MarkerArray markers;
 
-  VecMarker g;
+  VecMarker g("g", 0);
   g.set_end_point({-0.29, 0.32, 9.78});
   g.set_color({1.0, 0.0, 0.0});
-  VecMarker g_norm;
+  VecMarker g_norm("g_norm", 1);
   g_norm.set_end_point({-0.029661, 0.032343, 0.999037});
   g_norm.set_color({0.0, 1.0, 0.0});
 
   markers.markers.push_back(g.get_vec());
-//  markers.markers.push_back(g_norm.get_vec());
+  markers.markers.push_back(g_norm.get_vec());
 
   ros::Rate rate(10.0);
   while (ros::ok())
