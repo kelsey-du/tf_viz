@@ -10,7 +10,7 @@ public:
     _vec.header.frame_id = "world";
     _vec.header.stamp = ros::Time();
 
-    _vec.ns = "_vec";
+    _vec.ns = "vec";
     _vec.id = 0;
     _vec.type = visualization_msgs::Marker::ARROW;
     _vec.action = visualization_msgs::Marker::ADD;
@@ -36,25 +36,20 @@ public:
     _p_start.x = 0;
     _p_start.y = 0;
     _p_start.z = 0;
-    _p_end.x = 0;
-    _p_end.y = 0;
-    _p_end.z = 0;
-
     _vec.points.push_back(_p_start);
-    _vec.points.push_back(_p_end);
   }
 
   void set_end_point(std::vector<double> p_end){
     _p_end.x = p_end[0];
     _p_end.y = p_end[1];
     _p_end.z = p_end[2];
+    _vec.points.push_back(_p_end);
   }
 
   void set_color(std::vector<float> color){
     _vec.color.r = color[0];
     _vec.color.g = color[1];
     _vec.color.b = color[2];
-    _vec.color.a = color[3];
   }
 
   visualization_msgs::Marker get_vec(){
@@ -66,38 +61,6 @@ public:
   geometry_msgs::Point _p_end;
 
 };
-
-visualization_msgs::Marker create_vec_marker(geometry_msgs::Point p_end){
-  visualization_msgs::Marker vec;
-  vec.header.frame_id = "world";
-  vec.header.stamp = ros::Time();
-  vec.ns = "vec";
-  vec.id = 0;
-  vec.type = visualization_msgs::Marker::ARROW;
-  vec.action = visualization_msgs::Marker::ADD;
-  vec.pose.position.x = 0;
-  vec.pose.position.y = 0;
-  vec.pose.position.z = 0;
-  vec.pose.orientation.x = 0.0;
-  vec.pose.orientation.y = 0.0;
-  vec.pose.orientation.z = 0.0;
-  vec.pose.orientation.w = 1.0;
-  vec.scale.x = 0.1;
-  vec.scale.y = 0.1;
-  vec.scale.z = 0.1;
-  vec.color.a = 1.0;
-  vec.color.r = 1.0;
-  vec.color.g = 0.0;
-  vec.color.b = 0.0;
-
-  geometry_msgs::Point p_start;
-  p_start.x = 0;
-  p_start.y = 0;
-  p_start.z = 0;
-  vec.points.push_back(p_start);
-  vec.points.push_back(p_end);
-  return vec;
-}
 
 
 int main(int argc, char** argv){
@@ -119,24 +82,15 @@ int main(int argc, char** argv){
   ros::Publisher marker_pub = nh.advertise<visualization_msgs::MarkerArray>("markers", 10);
   visualization_msgs::MarkerArray markers;
 
-  // gravity vector before normalization
-  geometry_msgs::Point p_end;
-  p_end.x = -0.29;
-  p_end.y = 0.32;
-  p_end.z = 9.78;
-  visualization_msgs::Marker gvec = create_vec_marker(p_end);
+  VecMarker g;
+  g.set_end_point({-0.29, 0.32, 9.78});
+  g.set_color({1.0, 0.0, 0.0});
+  VecMarker g_norm;
+  g_norm.set_end_point({-0.029661, 0.032343, 0.999037});
+  g_norm.set_color({0.0, 1.0, 0.0});
 
-  // gravity vector after norm
-  p_end.x = -0.029661;
-  p_end.y = 0.032343;
-  p_end.z = 0.999037;
-  visualization_msgs::Marker gvec_norm = create_vec_marker(p_end);
-  gvec_norm.color.r = 0.0;
-  gvec_norm.color.g = 1.0;
-  gvec_norm.color.b = 0.0;
-
-  markers.markers.push_back(gvec);
-//  markers.markers.push_back(gvec_norm);
+  markers.markers.push_back(g.get_vec());
+//  markers.markers.push_back(g_norm.get_vec());
 
   ros::Rate rate(10.0);
   while (ros::ok())

@@ -10,8 +10,6 @@ Panels:
         - /TF1
         - /TF1/Frames1
         - /TF1/Tree1
-        - /Marker1
-        - /Marker1/Namespaces1
       Splitter Ratio: 0.5
     Tree Height: 1828
   - Class: rviz/Selection
@@ -79,14 +77,6 @@ Visualization Manager:
           tf_msg1:
             {}
       Update Interval: 0
-      Value: true
-    - Class: rviz/Marker
-      Enabled: true
-      Marker Topic: /gravity_vec
-      Name: Marker
-      Namespaces:
-        {}
-      Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
