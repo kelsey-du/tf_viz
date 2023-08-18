@@ -63,6 +63,12 @@ public:
       _name.set_origin(origin);
     }
 
+    void set_scale(std::vector<double> scale){
+      _x_axis.set_scale(scale);
+      _y_axis.set_scale(scale);
+      _z_axis.set_scale(scale);
+    }
+
     visualization_msgs::MarkerArray get_axes(){
       visualization_msgs::MarkerArray axes;
       axes.markers.push_back(_x_axis.get_vec());

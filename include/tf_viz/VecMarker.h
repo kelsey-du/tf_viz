@@ -53,6 +53,12 @@ public:
       _vec.color.b = color[2];
     }
 
+    void set_scale(std::vector<double> scale){
+      _vec.scale.x = scale[0];
+      _vec.scale.y = scale[1];
+      _vec.scale.z = scale[2];
+    }
+
     void set_origin(std::vector<double> origin){
       _vec.pose.position.x = origin[0];
       _vec.pose.position.y = origin[1];

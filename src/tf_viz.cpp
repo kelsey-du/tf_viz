@@ -36,14 +36,10 @@ int main(int argc, char** argv){
   // gravity to inertial
   std::vector<double> t_GinI = {10, -10, 0};
   Eigen::Matrix3d R_GtoI;
-  R_GtoI << -1.000, -0.001, -0.030,
-            0.000, -0.999, 0.032,
-            -0.030, 0.032, 0.999;
-  Eigen::Quaterniond q_GtoI_tmp(R_GtoI);
-  ROS_INFO("quaternion q_GtoI from Ro: %f, %f, %f, %f", q_GtoI_tmp.inverse().x(), q_GtoI_tmp.inverse().y(), q_GtoI_tmp.inverse().z(), q_GtoI_tmp.inverse().w());
-
-  Eigen::Quaterniond q_GtoI(0.000240, 0.014838, -0.016172, -0.999759);
-  ROS_INFO("quaternion q_GtoI: %f, %f, %f, %f", q_GtoI.x(), q_GtoI.y(), q_GtoI.z(), q_GtoI.w());
+  R_GtoI << -0.999559552, -0.000959829, -0.029661106,
+            0.000000000, -0.999476831, 0.032342910,
+            -0.029676632, 0.032328665, 0.999036613;
+  Eigen::Quaterniond q_GtoI(R_GtoI);
 
   // tf broadcaster
   tf2_ros::StaticTransformBroadcaster static_broadcaster;
@@ -75,6 +71,11 @@ int main(int argc, char** argv){
                                                  g_axes.get_axes().markers.at(1),
                                                  g_axes.get_axes().markers.at(2),
                                                  g_axes.get_axes().markers.at(3)});
+
+  // g vec in inertial frame marker translate to gravity frame
+  VecMarker g_inI_toG("g_inI", 1, "inertial", vec_ginI);
+  g_inI_toG.set_origin(t_GinI);
+  markers.markers.push_back(g_inI_toG.get_vec());
 
   ros::Rate rate(10.0);
   while (ros::ok())
