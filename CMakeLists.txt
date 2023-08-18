@@ -25,5 +25,5 @@ include_directories(
   ${EIGEN3_INCLUDE_DIRS}
 )
 
-add_executable(tf_broad src/tf_broad.cpp)
-target_link_libraries(tf_broad ${catkin_LIBRARIES})
+add_executable(tf_viz src/tf_viz.cpp)
+target_link_libraries(tf_viz ${catkin_LIBRARIES})
