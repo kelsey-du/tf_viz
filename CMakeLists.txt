@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
 )
 
-
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES tf_viz
@@ -18,11 +17,12 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
-
+find_package(Eigen3 REQUIRED)
 
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${EIGEN3_INCLUDE_DIRS}
 )
 
 add_executable(tf_broad src/tf_broad.cpp)

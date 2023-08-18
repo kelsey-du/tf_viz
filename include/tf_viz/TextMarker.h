@@ -2,25 +2,25 @@
 // Created by dudu on 23-8-16.
 //
 
-#ifndef SRC_VECMARKER_H
-#define SRC_VECMARKER_H
+#ifndef SRC_TextMARKER_H
+#define SRC_TextMARKER_H
 
 #include <visualization_msgs/Marker.h>
-class VecMarker{
+class TextMARKER{
 public:
-    explicit VecMarker(std::string ns = "ns", int id = 0, std::string frame = "world",
-            std::vector<double> p_end = {1.0, 0.0, 0.0}){
+    explicit TextMARKER(std::string ns = "ns", int id = 0, std::string frame = "world", std::string text = "test"){
       _vec.header.frame_id = frame;
       _vec.header.stamp = ros::Time();
 
       _vec.ns = ns;
       _vec.id = id;
-      _vec.type = visualization_msgs::Marker::ARROW;
+      _vec.text = text;
+      _vec.type = visualization_msgs::Marker::TEXT_VIEW_FACING;
       _vec.action = visualization_msgs::Marker::ADD;
 
       _vec.pose.position.x = 0;
       _vec.pose.position.y = 0;
-      _vec.pose.position.z = 0;
+      _vec.pose.position.z = -0.3;
 
       _vec.pose.orientation.x = 0.0;
       _vec.pose.orientation.y = 0.0;
@@ -29,22 +29,13 @@ public:
 
       _vec.scale.x = 0.1;
       _vec.scale.y = 0.1;
-      _vec.scale.z = 0.1;
+      _vec.scale.z = 0.5;
 
       _vec.color.r = 1.0;
-      _vec.color.g = 0.0;
-      _vec.color.b = 0.0;
+      _vec.color.g = 1.0;
+      _vec.color.b = 1.0;
       _vec.color.a = 1.0;
 
-      _p_start.x = 0;
-      _p_start.y = 0;
-      _p_start.z = 0;
-      _vec.points.push_back(_p_start);
-
-      _p_end.x = p_end[0];
-      _p_end.y = p_end[1];
-      _p_end.z = p_end[2];
-      _vec.points.push_back(_p_end);
     }
 
     void set_color(std::vector<float> color){
@@ -66,13 +57,6 @@ public:
       _vec.pose.orientation.w = rotation.w();
     }
 
-    void set_p_end(std::vector<double> p_end){
-      _p_end.x = p_end[0];
-      _p_end.y = p_end[1];
-      _p_end.z = p_end[2];
-      _vec.points[1] = _p_end;
-    }
-
     void set_ns(std::string ns){
       _vec.ns = ns;
     }
@@ -85,16 +69,18 @@ public:
       _vec.header.frame_id = frame;
     }
 
+    void set_text(std::string text){
+      _vec.text = text;
+    }
+
     visualization_msgs::Marker get_vec(){
       return _vec;
     }
 
 private:
     visualization_msgs::Marker _vec;
-    geometry_msgs::Point _p_start;
-    geometry_msgs::Point _p_end;
 
 };
 
 
-#endif //SRC_VECMARKER_H
+#endif //SRC_TextMARKER_H
